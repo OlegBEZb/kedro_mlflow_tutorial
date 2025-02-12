@@ -1,0 +1,63 @@
+[tool.poetry]
+name = "kedro_mlflow_tutorial"
+version = "0.0.1"
+description = ""
+authors = ["Oleg Litvinov <olegolego1997@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.13"
+ipython = ">=8.10"
+notebook = "*"
+kedro = { version = ">=0.19.10", extras = ["jupyter"] }
+kedro-datasets = { version = ">=3.0", extras = ["pandas-csvdataset", "pandas-exceldataset", "pandas-parquetdataset"] }
+kedro-viz = ">=10.2.0"
+scikit-learn = "~1.5.1"
+kedro-mlflow = { version = ">=0.13.4,<0.14.0" }
+
+[tool.poetry.group.dev.dependencies]
+pytest = "~7.2"
+pytest-cov = "~3.0"
+pytest-mock = ">=1.7.1,<2.0"
+ruff = "~0.1.8"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.kedro]
+package_name = "kedro_mlflow_tutorial"
+project_name = "kedro-mlflow-tutorial"
+kedro_init_version = "0.19.10"
+tools = "['None']"
+example_pipeline = "False"
+source_dir = "src"
+
+[tool.pytest.ini_options]
+addopts = """
+--cov-report term-missing \
+--cov src/kedro_mlflow_tutorial -ra"""
+
+[tool.coverage.report]
+fail_under = 0
+show_missing = true
+exclude_lines = ["pragma: no cover", "raise NotImplementedError"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff]
+line-length = 150
+show-fixes = true
+select = [
+    "F",   # Pyflakes
+    "W",   # pycodestyle
+    "E",   # pycodestyle
+    "I",   # isort
+    "UP",  # pyupgrade
+    "PL",  # Pylint
+    "T201", # Print Statement
+]
+ignore = ["E501"]  # Ruff format takes care of line-too-long
+
+[tool.kedro_telemetry]
+project_id = "94be7bd2ef714af29551c7849f497d2f"

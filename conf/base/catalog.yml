@@ -1,0 +1,117 @@
+# Here you can define all your data sets by using simple YAML syntax.
+#
+# Documentation for this file format can be found in "The Data Catalog"
+# Link: https://docs.kedro.org/en/stable/data/data_catalog.html
+#
+# We support interacting with a variety of data stores including local file systems, cloud, network and HDFS
+#
+# An example data set definition can look as follows:
+#
+#bikes:
+#  type: pandas.CSVDataset
+#  filepath: "data/01_raw/bikes.csv"
+#
+#weather:
+#  type: spark.SparkDataset
+#  filepath: s3a://your_bucket/data/01_raw/weather*
+#  file_format: csv
+#  credentials: dev_s3
+#  load_args:
+#    header: True
+#    inferSchema: True
+#  save_args:
+#    sep: '|'
+#    header: True
+#
+#scooters:
+#  type: pandas.SQLTableDataset
+#  credentials: scooters_credentials
+#  table_name: scooters
+#  load_args:
+#    index_col: ['name']
+#    columns: ['name', 'gear']
+#  save_args:
+#    if_exists: 'replace'
+#    # if_exists: 'fail'
+#    # if_exists: 'append'
+#
+# The Data Catalog supports being able to reference the same file using two different Dataset implementations
+# (transcoding), templating and a way to reuse arguments that are frequently repeated. See more here:
+# https://docs.kedro.org/en/stable/data/data_catalog.html
+
+companies:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/companies.csv
+
+reviews:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/reviews.csv
+
+shuttles:
+  type: pandas.ExcelDataset
+  filepath: data/01_raw/shuttles.xlsx
+  load_args:
+    engine: openpyxl
+
+preprocessed_companies:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/preprocessed_companies.parquet
+
+preprocessed_shuttles:
+  type: pandas.ParquetDataset
+  filepath: data/02_intermediate/preprocessed_shuttles.parquet
+
+spaceflight_primary_table_full:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/spaceflight_primary_table_full.parquet
+  save_args:
+    index: false
+
+spaceflight_primary_table:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/spaceflight_primary_table.parquet
+  save_args:
+    index: false
+
+model_input_table_selected:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/model_input_table_selected.parquet
+
+model_input_features:
+  type: pandas.ParquetDataset
+  filepath: data/04_features/model_input_features.parquet
+
+model_input_target:
+  type: pandas.ParquetDataset
+  filepath: data/04_features/model_input_target.parquet
+
+X_test_raw:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/X_test_raw.parquet
+
+X_test:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/X_test.parquet
+
+X_test_scaled:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/X_test_scaled.parquet
+
+X_train_features:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/X_train_features.parquet
+
+X_test_features:
+  type: pandas.ParquetDataset
+  filepath: data/05_model_input/X_test_features.parquet
+
+fitted_scaler:
+  type: pickle.PickleDataset
+  filepath: data/06_models/fitted_scaler.pkl
+
+regressor:
+  type: pickle.PickleDataset
+  filepath: data/06_models/regressor.pickle
+
+metrics:
+  type: kedro_mlflow.io.metrics.MlflowMetricDataset
